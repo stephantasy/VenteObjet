@@ -16,7 +16,7 @@ function afficheContenuPageArticles(filtre){
   $("#articlesCard").addClass("w3-container w3-center w3-margin");
 
   // On indique ce qui est affiché
-  $("#currentDisplay").text(" = Tous les articles = ");
+  $("#currentDisplay").text("Tous les articles (" + (articles.length - getNombreArticlesVendu()) + " non vendu)");
 
   // Pas de paramètre
   if (typeof filtre == 'undefined'){
@@ -87,12 +87,28 @@ function getCardElement(lArticle){
   lImage.setAttribute("class", "w3-margin w3-card-4"); 
   lImage.setAttribute("style", "width:200px");
 
+  // S'il est vendu
+  var isVendu = lArticle.getVendu();
+  var lImageVendu;
+  if(isVendu == 1){
+    lImageVendu = document.createElement("img");  
+    lImageVendu.setAttribute("src", "images/vendu2.png"); 
+    lImageVendu.setAttribute("alt", "Image Vendu"); 
+    lImageVendu.setAttribute("class", "image-vendu"); 
+
+    // ON OTE LE CLIC !    
+    laCard.setAttribute("onClick", "");
+  }
+
   // Prix
   var lePrix = document.createElement("h6");
   lePrix.innerHTML = (parseFloat(lArticle.getPrix().replace(',','.'))).toFixed(2) + "$";
   
   // Construction
   leCorps.appendChild(lImage);
+  if(isVendu == 1){
+    leCorps.appendChild(lImageVendu);
+  }
   leCorps.appendChild(lePrix);
   laCard.appendChild(leHeader);
   laCard.appendChild(leCorps);
@@ -146,15 +162,6 @@ function displayArticlePage(ceArticle){
   lePrix.setAttribute("class", "w3-margin w3-padding w3-card-4 w3-xlarge w3-yellow");
   lePrix.innerHTML = articles[id].getPrix() + " $";
 
-  // Kijiji
-  var leKijiji = document.createElement("span");
-  leKijiji.setAttribute("class", "w3-margin");
-  leKijiji.innerHTML = "<br><br><br><b><i>Voir sur Kijiji : </i></b>";  
-  var leKijijiLien = document.createElement("a");
-  leKijijiLien.setAttribute("href", articles[id].getKijiji());
-  leKijijiLien.innerHTML = "Cliquez ici";
-  leKijiji.appendChild(leKijijiLien);
-
   // Bouton retour
   var lIcone = document.createElement("i");
   lIcone.setAttribute("class", "fa fa-arrow-left w3-margin-right");
@@ -177,7 +184,6 @@ function displayArticlePage(ceArticle){
   lArticle.appendChild(laDesc);
   lArticle.appendChild(lePrixTitre);
   lArticle.appendChild(lePrix);
-  lArticle.appendChild(leKijiji);
   lArticle.appendChild(leBouton);
 
   // On affiche l'article
@@ -252,7 +258,7 @@ function getImageElement(imageName, id){
   function xmlToArray(xmlText) {
 
     var listeArticle;
-    var id, titre, desc, prix, kijiji;
+    var id, titre, desc, prix, vendu;
     var images = [];
     var nbArticles, nbElements;
     var pos = 0;    // Position dans le tableau
@@ -274,7 +280,7 @@ function getImageElement(imageName, id){
       titre = listeArticle[i].getElementsByTagName("titre")[0].firstChild.nodeValue;
       desc = listeArticle[i].getElementsByTagName("desc")[0].firstChild.nodeValue;
       prix = listeArticle[i].getElementsByTagName("prix")[0].firstChild.nodeValue;      
-      kijiji = listeArticle[i].getElementsByTagName("kijiji")[0].firstChild.nodeValue;
+      vendu = listeArticle[i].getElementsByTagName("vendu")[0].firstChild.nodeValue;
       
       images.length = 0;
       var imagesTemp = listeArticle[i].getElementsByTagName("image");
@@ -292,7 +298,7 @@ function getImageElement(imageName, id){
         desc,
         prix,
         images,
-        kijiji
+        vendu
       );
       articles[pos++] = article;
     }
@@ -303,12 +309,14 @@ function getImageElement(imageName, id){
 /* === DIVERS === */
 /* ============== */
 
-
-// Script to open and close sidebar
-function w3_open() {
+function getNombreArticlesVendu(){
+  var nb = 0;
+  for(var item in articles){
+    if(articles[item].vendu == 1){
+      nb++;
+    }
+  }
+  return nb;
 }
-function w3_close() {
-}
-
 
 

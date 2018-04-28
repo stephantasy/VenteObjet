@@ -8,11 +8,11 @@ function Article(){
 	this.desc;
 	this.prix;
 	this.images = [];
-	this.kijiji;
+	this.vendu;
 }
 
 // Constructeurs
-Article.prototype.Article=function(id, titre, desc, prix, images, kijiji){  
+Article.prototype.Article=function(id, titre, desc, prix, images, vendu){  
 	// Constructeur de copie
 	if(arguments[0] instanceof Article){
 	  //alert("Constructeur de copie");
@@ -23,7 +23,7 @@ Article.prototype.Article=function(id, titre, desc, prix, images, kijiji){
 	  for (var i=0; i<images.length; i++) {
 		this.images[i] = arguments[0].images[i];
 	  }
-	  this.kijiji = arguments[0].kijiji;
+	  this.vendu = arguments[0].vendu;
 	}
 	// Constructeur paramétré
 	else if(arguments.length == 6){
@@ -35,7 +35,7 @@ Article.prototype.Article=function(id, titre, desc, prix, images, kijiji){
 	  for (var i=0; i<images.length; i++) {
 		this.images.push(images[i]);
 	  }
-	  this.kijiji = kijiji;
+	  this.vendu = vendu;
 	}
 	// Constructeur par défaut (si le nombre d'argument ne correspond pas, on le considère par défaut)
 	else {
@@ -45,7 +45,7 @@ Article.prototype.Article=function(id, titre, desc, prix, images, kijiji){
 	  this.desc = "";
 	  this.prix = 0.0;
 	  this.images.push("no_image.jpg");
-	  this.kijiji = "";
+	  this.vendu = "";
 	}
 }
 
@@ -68,11 +68,11 @@ Article.prototype.getFirstImage = function(){
 Article.prototype.getImages = function(){
 	return this.images;
 }
-Article.prototype.getKijiji = function(){
-	return this.kijiji;
+Article.prototype.getVendu = function(){
+	return this.vendu;
 }
 
 // Méthodes diverses
 Article.prototype.affiche = function(){
-	return this.id + "<br>" + this.titre + "<br>" + this.desc + "<br>" + this.prix + "<br>" + this.images +  "<br>" + this.kijiji +  "<br>";
+	return this.id + "<br>" + this.titre + "<br>" + this.desc + "<br>" + this.prix + "<br>" + this.images +  "<br>" + this.vendu +  "<br>";
 }

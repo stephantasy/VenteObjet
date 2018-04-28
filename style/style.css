@@ -77,6 +77,14 @@ body{
   color:gold;
 }
 
+/* image-vendu */
+.image-vendu{
+  position: absolute;  
+  margin-left: -249px;
+  width:260px;
+}
+
+
 /* SNACKBAR */
 #snackbar {
   visibility: hidden;
