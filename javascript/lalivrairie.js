@@ -92,9 +92,10 @@ function getCardElement(lArticle){
   var lImageVendu;
   if(isVendu == 1){
     lImageVendu = document.createElement("img");  
-    lImageVendu.setAttribute("src", "images/vendu2.png"); 
+    lImageVendu.setAttribute("src", "images/vendu.png"); 
     lImageVendu.setAttribute("alt", "Image Vendu"); 
-    lImageVendu.setAttribute("class", "image-vendu"); 
+    //lImageVendu.setAttribute("class", "image-vendu"); 
+    lImageVendu.setAttribute("style", "width:260px; margin-left:-17px;");
 
     // ON OTE LE CLIC !    
     laCard.setAttribute("onClick", "");
@@ -108,8 +109,9 @@ function getCardElement(lArticle){
   leCorps.appendChild(lImage);
   if(isVendu == 1){
     leCorps.appendChild(lImageVendu);
+  }else{
+    leCorps.appendChild(lePrix);
   }
-  leCorps.appendChild(lePrix);
   laCard.appendChild(leHeader);
   laCard.appendChild(leCorps);
 
