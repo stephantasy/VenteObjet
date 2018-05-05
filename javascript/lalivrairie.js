@@ -39,7 +39,10 @@ function getElementsArticlesNouveautes(){
 
   var tailleArticles = articles.length;  
   for(var i = 0 ; i < tailleArticles ; i++){
-    listeCard.appendChild(getCardElement(articles[i]));    
+    var laCarte = getCardElement(articles[i]);
+    if(laCarte != null){
+      listeCard.appendChild(getCardElement(articles[i]));
+    }
   }
   return listeCard;
 }
@@ -52,7 +55,10 @@ function getElementsArticles(categorie){
   var tailleArticles = articles.length;  
   for(var i = 0 ; i < tailleArticles ; i++){
     if(articles[i].categorie == categorie || "AllArticles" == categorie){
-      listeCard.appendChild(getCardElement(articles[i]));
+      var laCarte = getCardElement(articles[i]);
+      if(laCarte != null){
+        listeCard.appendChild(laCarte);
+      }
     }
   }
   return listeCard;
@@ -60,6 +66,13 @@ function getElementsArticles(categorie){
 
 // Construit et renvoie un élément Card contenant les informations d'un article
 function getCardElement(lArticle){
+
+  // Si l'aticle est vendu, on ne l'affiche pas
+  if(lArticle.getVendu() == 1){
+    return null;
+  }
+
+
   // Card : Élément de base contenant toutes les informations
   var laCard = document.createElement("div");
   laCard.setAttribute("data-userid", lArticle.id); 
@@ -181,12 +194,13 @@ function displayArticlePage(ceArticle){
   // Montage
   var lArticle = document.createElement("div");
   lArticle.setAttribute("class", "w3-margin"); 
+  lArticle.appendChild(leBouton);
   lArticle.appendChild(leTitre);  
   lArticle.appendChild(lesPhotos);
   lArticle.appendChild(laDesc);
   lArticle.appendChild(lePrixTitre);
   lArticle.appendChild(lePrix);
-  lArticle.appendChild(leBouton);
+  lArticle.appendChild(leBouton.cloneNode(true));
 
   // On affiche l'article
   $("#articlesCard").append(lArticle);
